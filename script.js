@@ -1,7 +1,27 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
+const addBtn = document.querySelector(".addBtn");
+const dateTaskPosted = new Date();
 
-function addTask(){
+document.querySelector('.timeDone')
+    .innerHTML = dateTaskPosted.toLocaleString();
+
+addBtn.addEventListener(('click'), ()=>{
+    if(inputBox.value ===''){
+        alert('You must write something');
+    }else{
+        const li = document.createElement('li');
+        li.innerHTML = inputBox.value;
+        listContainer.appendChild(li);
+        const span = document.createElement("span");
+        span.innerHTML = "\&#10005";
+        li.appendChild(span);
+    }
+    inputBox.value ='';
+    saveTask();
+});
+
+/*function addTask(){
     if(inputBox.value ===''){
         alert('You must write something');
     }else{
@@ -16,23 +36,23 @@ function addTask(){
     inputBox.value = "";
     saveData();
 }
-
-listContainer.addEventListener('click', (e)=>{
-    if(e.target.tagName ==="LI"){
-        e.target.classList.toggle("checked")
-        saveData();
+*/
+listContainer.addEventListener(('click'),(e)=>{
+    if(e.target.tagName === "LI"){
+        e.target.classList.toggle('checked');
+        saveTask();
     }else if(e.target.tagName === "SPAN"){
-        e.target.parentElement.remove();
-        saveData();
+        e.target.parentElement.remove('span')
+        saveTask();
     }
-},false);
+})
 
-function saveData(){
-    localStorage.setItem("data", listContainer.innerHTML);
+function saveTask(){
+    localStorage.setItem("task", listContainer.innerHTML);
 }
 
 
 function showTask(){
-    listContainer.innerHTML = localStorage.getItem("data");
+    listContainer.innerHTML = localStorage.getItem("task");
 }
 showTask();
